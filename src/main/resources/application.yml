@@ -1,0 +1,29 @@
+server:
+  port: 8080
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka-server:8761/eureka/
+  instance:
+    preferIpAddress: true
+    nonSecurePort: 8080
+    securePortEnabled: false
+
+spring:
+  application:
+    name: api-gateway-service
+  cloud:
+    gateway:
+      routes:
+        - id: turmas-service
+          uri: lb://turmas-service
+          predicates:
+            - Path=/turma/**
+        - id: alunos-service
+          uri: lb://alunos-service
+          predicates:
+            - Path=/aluno/**
+        - id: classes-service
+          uri: lb://classes-service
+          predicates:
+            - Path=/classe/**
